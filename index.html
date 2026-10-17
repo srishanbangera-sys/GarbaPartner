@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Garba Partner Finder | Nexus Fest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Yatra+One&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --night: #140426;
+      --plum-dark: #22063b;
+      --plum-card: rgba(40, 10, 66, 0.72);
+      --marigold: #ffb703;
+      --marigold-glow: rgba(255, 183, 3, 0.25);
+      --magenta: #e6185f;
+      --teal: #14b8a6;
+      --orange: #ff7728;
+      --cream: #fff7eb;
+      --cream-muted: rgba(255, 247, 235, 0.72);
+      --card-border: rgba(255, 183, 3, 0.28);
+      --font-display: 'Yatra One', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--cream);
+      background-color: var(--night);
+      background-image:
+        radial-gradient(circle at 18% 12%, rgba(230, 24, 95, 0.24), transparent 42%),
+        radial-gradient(circle at 82% 88%, rgba(255, 183, 3, 0.16), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(58, 10, 92, 0.4), transparent 70%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Subtle Bandhani Dot Pattern Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        radial-gradient(var(--marigold) 1.2px, transparent 1.6px),
+        radial-gradient(var(--teal) 1.2px, transparent 1.6px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+      z-index: 0;
+    }
+
+    /* Festive Toran Bunting */
+    .toran {
+      position: relative;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+      width: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .toran i {
+      display: block;
+      width: 28px;
+      height: 36px;
+      margin: 0 2.5px;
+      background: var(--c);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      animation: toranSway 3.2s ease-in-out infinite alternate;
+      animation-delay: var(--d);
+      transform-origin: top center;
+      opacity: 0.9;
+    }
+
+    @keyframes toranSway {
+      0% {
+        transform: rotate(-3deg);
+      }
+
+      100% {
+        transform: rotate(5deg);
+      }
+    }
+
+    /* Main Container Layout */
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 12px 18px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Screen Transitions */
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px) scale(0.985);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      width: 100%;
+      flex: 1;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .screen.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Rangoli Graphic */
+    .rangoli-wrap {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 4px auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rangoli {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, var(--night) 0 16%, transparent 17%),
+        radial-gradient(circle, var(--marigold) 0 26%, transparent 27%),
+        conic-gradient(from 0deg, var(--magenta), var(--marigold), var(--teal), var(--orange), var(--magenta), var(--marigold), var(--teal), var(--orange), var(--magenta));
+      -webkit-mask: radial-gradient(circle, #000 0 98%, transparent 100%);
+      mask: radial-gradient(circle, #000 0 98%, transparent 100%);
+      box-shadow: 0 0 0 2px rgba(255, 183, 3, 0.4), 0 8px 24px rgba(0, 0, 0, 0.4);
+      animation: rangoliSpin 24s linear infinite;
+      position: relative;
+    }
+
+    .rangoli::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(var(--night) 0 12deg, transparent 12deg 36deg);
+      opacity: 0.5;
+    }
+
+    @keyframes rangoliSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Dandiya Sticks */
+    .dandiya {
+      position: relative;
+      height: 44px;
+      width: 140px;
+      margin: 6px auto 14px;
+    }
+
+    .dandiya b {
+      position: absolute;
+      top: 6px;
+      width: 78px;
+      height: 10px;
+      border-radius: 6px;
+      background: repeating-linear-gradient(90deg, var(--marigold) 0 8px, var(--magenta) 8px 16px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .dandiya b:nth-child(1) {
+      left: 2px;
+      transform: rotate(24deg);
+      animation: clack1 1.2s ease-in-out infinite alternate;
+    }
+
+    .dandiya b:nth-child(2) {
+      right: 2px;
+      transform: rotate(-24deg);
+      animation: clack2 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes clack1 {
+      to {
+        transform: rotate(-4deg) translateX(10px);
+      }
+    }
+
+    @keyframes clack2 {
+      to {
+        transform: rotate(4deg) translateX(-10px);
+      }
+    }
+
+    /* Typography */
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2rem, 7.5vw, 2.45rem);
+      line-height: 1.15;
+      color: var(--marigold);
+      text-shadow: 0 2px 10px rgba(230, 24, 95, 0.45);
+      letter-spacing: 0.02em;
+    }
+
+    .sub {
+      margin: 10px auto 0;
+      max-width: 38ch;
+      color: var(--cream-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    /* Refined Glassmorphism Card */
+    .card {
+      width: 100%;
+      margin-top: 20px;
+      padding: 22px 20px 20px;
+      border-radius: 22px;
+      text-align: left;
+      background: var(--plum-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      box-shadow:
+        0 16px 36px -8px rgba(0, 0, 0, 0.45),
+        0 0 24px -6px rgba(230, 24, 95, 0.15);
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.86rem;
+      color: var(--cream);
+      margin: 0 0 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .input-wrap {
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 183, 3, 0.28);
+      background: rgba(255, 247, 235, 0.07);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input::placeholder {
+      color: rgba(255, 247, 235, 0.4);
+    }
+
+    /* Select arrow custom styling */
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: "";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--marigold);
+      pointer-events: none;
+    }
+
+    select option {
+      background: #25073e;
+      color: var(--cream);
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--marigold);
+      background: rgba(255, 247, 235, 0.11);
+      box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
+    }
+
+    /* Inline error messages */
+    .err {
+      color: #ff9db8;
+      font-size: 0.82rem;
+      min-height: 1.25em;
+      margin: -6px 0 12px;
+      font-weight: 500;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Clean, modern buttons */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #120322;
+      background: linear-gradient(135deg, #ffb703 0%, #ff7b1a 55%, #e6185f 100%);
+      box-shadow: 0 4px 18px rgba(255, 123, 26, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(255, 123, 26, 0.45);
+      filter: brightness(1.04);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 10px rgba(255, 123, 26, 0.3);
+    }
+
+    .btn:focus-visible,
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+    }
+
+    .fine {
+      margin-top: 14px;
+      font-size: 0.76rem;
+      color: var(--cream-muted);
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0.85;
+    }
+
+    /* 2. SEARCHING SCREEN */
+    .loadwrap {
+      width: 100%;
+      padding: 40px 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner-ring {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 4px solid rgba(255, 247, 235, 0.12);
+      border-top-color: var(--marigold);
+      border-right-color: var(--magenta);
+      animation: spinnerRotate 1.1s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+      box-shadow: 0 0 20px rgba(230, 24, 95, 0.2);
+    }
+
+    @keyframes spinnerRotate {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #status {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 5vw, 1.45rem);
+      color: var(--cream);
+      margin-top: 28px;
+      min-height: 3.4em;
+      line-height: 1.35;
+      letter-spacing: 0.01em;
+      transition: opacity 0.25s ease;
+      padding: 0 10px;
+    }
+
+    .bar-wrap {
+      width: 100%;
+      max-width: 320px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 247, 235, 0.12);
+      overflow: hidden;
+      margin-top: 12px;
+      border: 1px solid rgba(255, 183, 3, 0.18);
+    }
+
+    .bar-fill {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--marigold), var(--magenta));
+      border-radius: 999px;
+      transition: width 0.45s ease-out;
+    }
+
+    .search-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 247, 235, 0.06);
+      border: 1px solid rgba(255, 183, 3, 0.16);
+      font-size: 0.78rem;
+      color: var(--marigold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* 3. REVEAL SCREEN */
+    /* Meme directly on the screen - NO separate box or column! */
+    .meme-standalone {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 4px auto 14px;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .meme-standalone img,
+    .meme-standalone video {
+      display: block;
+      max-width: 190px;
+      width: 52vw;
+      height: auto;
+      margin: 0 auto;
+      filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.4));
+      animation: memePop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes memePop {
+      0% {
+        transform: scale(0.6) translateY(20px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Discreet Audio Control Pill */
+    .audio-ctrl {
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(40, 10, 66, 0.65);
+      border: 1px solid rgba(255, 183, 3, 0.25);
+      color: var(--cream);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .audio-ctrl:hover {
+      background: rgba(58, 10, 92, 0.85);
+      border-color: var(--marigold);
+    }
+
+    .twist {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6.8vw, 2.1rem);
+      color: var(--marigold);
+      margin-top: 4px;
+      line-height: 1.18;
+      text-shadow: 0 2px 8px rgba(230, 24, 95, 0.4);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .twist.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Roast Lines Container */
+    .lines {
+      list-style: none;
+      padding: 0;
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .lines li {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--plum-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 183, 3, 0.16);
+      border-left: 4px solid var(--teal);
+      color: var(--cream);
+      font-size: 0.9rem;
+      line-height: 1.48;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    .lines li:nth-child(even) {
+      border-left-color: var(--magenta);
+    }
+
+    .lines li.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Call to Action Container */
+    .cta {
+      margin-top: 20px;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .cta.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .cta-desc {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--cream-muted);
+      text-align: center;
+    }
+
+    .tag-friend {
+      margin-top: 16px;
+      font-size: 0.84rem;
+      color: var(--marigold);
+      font-weight: 500;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255, 183, 3, 0.08);
+      border: 1px dashed rgba(255, 183, 3, 0.3);
+    }
+
+    /* Search Again link */
+    .again {
+      background: none;
+      border: 0;
+      color: var(--cream-muted);
+      font-size: 0.85rem;
+      margin-top: 18px;
+      font-family: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      transition: color 0.15s;
+      padding: 6px;
+    }
+
+    .again:hover {
+      color: var(--cream);
+    }
+
+    /* Small Nexus Fest brand line in the footer of each screen */
+    .brand-footer {
+      margin-top: auto;
+      padding-top: 22px;
+      font-size: 0.74rem;
+      color: var(--cream-muted);
+      opacity: 0.72;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .brand-footer span {
+      color: var(--marigold);
+      font-weight: 700;
+    }
+
+    /* Accessibility & Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+
+      .rangoli,
+      .toran i,
+      .dandiya b,
+      .spinner-ring,
+      .meme-standalone img,
+      .meme-standalone video {
+        animation: none !important;
+      }
+
+      .screen,
+      .lines li,
+      .twist,
+      .cta {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 380px) {
+      main {
+        padding: 10px 14px 22px;
+      }
+
+      .card {
+        padding: 18px 15px;
+      }
+
+      .rangoli-wrap {
+        width: 120px;
+        height: 120px;
+      }
+
+      .meme-standalone img,
+      .meme-standalone video {
+        max-width: 160px;
+      }
+
+      h1 {
+        font-size: 1.85rem;
+      }
+
+      .btn {
+        font-size: 0.98rem;
+        padding: 13px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Festive Toran Bunting -->
+  <div class="toran" id="toran" aria-hidden="true"></div>
+
+  <!-- Background Audio for Meme Reveal -->
+  <audio id="memeAudio" preload="auto" loop></audio>
+
+  <main>
+    <!-- SCREEN 1: LANDING PAGE -->
+    <section class="screen active visible" id="s-home">
+      <div class="rangoli-wrap">
+        <div class="rangoli" aria-hidden="true"></div>
+      </div>
+      <div class="dandiya" aria-hidden="true"><b></b><b></b></div>
+
+      <h1>Find Your Garba Partner</h1>
+      <p class="sub">Navaratri is here and your dandiya needs a duo. Drop your details and our totally real algorithm
+        will handle the rest.</p>
+
+      <div class="card">
+        <div class="input-wrap">
+          <label for="age">Your age (no lying, the algorithm can tell)</label>
+          <input id="age" type="number" inputmode="numeric" pattern="[0-9]*" min="14" max="80" placeholder="e.g. 19"
+            autocomplete="off">
+          <div class="err" id="age-err" role="alert"></div>
+        </div>
+
+        <div class="input-wrap">
+          <label for="gender">Your gender</label>
+          <div class="select-wrap">
+            <select id="gender">
+              <option value="">Select your gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-binary">Non-binary</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="err" id="gender-err" role="alert"></div>
+        </div>
+
+        <button class="btn" id="go">Find my partner</button>
+        <p class="fine">100% AI powered matching. No bachelors were harmed.</p>
+      </div>
+
+
+    </section>
+
+    <!-- SCREEN 2: SEARCHING / LOADING -->
+    <section class="screen" id="s-search">
+      <div class="loadwrap">
+        <div class="spinner-ring" aria-hidden="true"></div>
+        <div class="search-badge">Garba-GPT Engine</div>
+        <div id="status" aria-live="polite">Booting up Garba-GPT 3000...</div>
+        <div class="bar-wrap">
+          <span class="bar-fill" id="prog"></span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SCREEN 3: REVEAL -->
+    <section class="screen" id="s-reveal">
+      <!-- Standalone meme - NO separate box or column, transparent cat floats on screen -->
+      <div class="meme-standalone" id="meme-container">
+        <!-- Injected dynamically via script -->
+      </div>
+
+
+      <ul class="lines" id="lines"></ul>
+
+      <div class="cta" id="cta">
+        <a class="btn" id="reg" href="#">Join Nexus Fest</a>
+        <p class="cta-desc" id="when">Find your squad, not a partner.</p>
+
+      </div>
+
+      <button class="again" id="again">Search again (the result won't change)</button>
+
+    </section>
+  </main>
+
+  <script>
+    /* ======= CONFIG CONSTANTS ======= */
+    const MEME_SRC = "cat_transparent.gif";    // Meme image / gif / video
+    const MEME_AUDIO = "ReelAudio-46990.mp3";    // Audio for the meme
+    const REG_LINK = "https://fest.nexusclubs.in/"; // Nexus Fest registration link
+    const FEST_INFO = "Find your squad, not a partner.";
+    /* ================================ */
+
+    const $ = id => document.getElementById(id);
+    const audioEl = $('memeAudio');
+    let isAudioMuted = false;
+    let currentStepTimer = null;
+    let revealTimers = [];
+
+    // Populate festive toran bunting
+    (function initToran() {
+      const colors = ['#e6185f', '#ffb703', '#14b8a6', '#ff7728', '#9d4edd'];
+      const toranEl = $('toran');
+      if (toranEl) {
+        toranEl.innerHTML = Array.from({ length: 26 }, (_, i) =>
+          `<i style="--c:${colors[i % colors.length]};--d:${(i % 7) * 0.22}s"></i>`
+        ).join('');
+      }
+    })();
+
+    // Smooth screen transitions
+    function transitionTo(targetId, callback) {
+      const currentScreen = document.querySelector('.screen.active');
+      const targetScreen = $(targetId);
+
+      if (!targetScreen || currentScreen === targetScreen) return;
+
+      if (currentScreen) {
+        currentScreen.classList.remove('visible');
+        setTimeout(() => {
+          currentScreen.classList.remove('active');
+          targetScreen.classList.add('active');
+          window.scrollTo(0, 0);
+          // Force reflow
+          void targetScreen.offsetWidth;
+          targetScreen.classList.add('visible');
+          if (typeof callback === 'function') callback();
+        }, 240);
+      } else {
+        targetScreen.classList.add('active');
+        window.scrollTo(0, 0);
+        void targetScreen.offsetWidth;
+        targetScreen.classList.add('visible');
+        if (typeof callback === 'function') callback();
+      }
+    }
+
+    // 8 Searching lines (cycled ~1.4s each)
+    const searchingLines = [
+      "Initializing Garba-GPT 3000... ",
+      "Scanning 500+ students... ",
+      "Rejecting 97% of candidates. Skill issue on their part honestly.",
+      "Ooh, found someone cute! ...nvm, that's just a mannequin near the canteen.",
+      "Asking ChatGPT for help. It said 'even I can't fix this.' 💀",
+      "Desperate times: checking if your ex is available. They blocked you. Twice.",
+    ];
+
+    // Roast lines on reveal screen
+    const roastLines = [
+      "You really scanned a QR on a wall? That's crazy 💀",
+      "Your garba partner: 404 not found.",
+      "Real talk: you can't find a partner, but you CAN find a teammate. Nexus Fest is where the real rizz happens: code, build, win.",
+      "Still searching for a partner? Join Nexus Fest. Less dandiya, more debugging 😎"
+    ]th
+
+    // Audio helper
+    function playMemeAudio() {
+      if (!MEME_AUDIO) return;
+      audioEl.src = MEME_AUDIO;
+      audioEl.currentTime = 0;
+      audioEl.muted = isAudioMuted;
+      audioEl.play().catch(err => {
+        console.log("Audio autoplay constrained:", err);
+      });
+    }
+
+    function stopMemeAudio() {
+      audioEl.pause();
+      audioEl.currentTime = 0;
+    }
+
+    // Form validation and Start Search
+    function startSearch() {
+      const ageVal = $('age').value.trim();
+      const ageNum = parseInt(ageVal, 10);
+      const gender = $('gender').value;
+
+      const ageErr = $('age-err');
+      const genderErr = $('gender-err');
+      ageErr.textContent = "";
+      genderErr.textContent = "";
+
+      let hasError = false;
+
+      if (!ageVal || isNaN(ageNum) || ageNum < 14 || ageNum > 80) {
+        ageErr.textContent = "Enter your age, bestie. Even the algorithm needs data.";
+        hasError = true;
+      }
+
+      if (!gender) {
+        genderErr.textContent = "Pick one. The dandiya sticks are waiting.";
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Prime audio during user click interaction
+      if (MEME_AUDIO) {
+        audioEl.src = MEME_AUDIO;
+        audioEl.load();
+      }
+
+      // Switch to searching screen
+      transitionTo('s-search', () => {
+        let index = 0;
+        const statusEl = $('status');
+        const progEl = $('prog');
+
+        statusEl.textContent = searchingLines[0];
+        progEl.style.width = "12%";
+
+        if (currentStepTimer) clearInterval(currentStepTimer);
+
+        currentStepTimer = setInterval(() => {
+          index++;
+          if (index >= searchingLines.length) {
+            clearInterval(currentStepTimer);
+            currentStepTimer = null;
+            reveal();
+            return;
+          }
+
+          // Smooth text swap
+          statusEl.style.opacity = '0';
+          setTimeout(() => {
+            statusEl.textContent = searchingLines[index];
+            statusEl.style.opacity = '1';
+          }, 150);
+
+          const percent = Math.min(96, Math.round(((index + 1) / searchingLines.length) * 100));
+          progEl.style.width = percent + "%";
+        }, 1400);
+      });
+    }
+
+    // Reveal Flow
+    function reveal() {
+      // Clear any existing timers
+      revealTimers.forEach(t => clearTimeout(t));
+      revealTimers = [];
+
+      transitionTo('s-reveal', () => {
+        // 1. Standalone meme (NO separate box/column, transparent cat floats on screen)
+        const memeContainer = $('meme-container');
+        memeContainer.innerHTML = "";
+
+        const ext = MEME_SRC.split('.').pop().toLowerCase().split('?')[0];
+        let memeMedia;
+
+        if (['mp4', 'webm', 'mov', 'ogg'].includes(ext)) {
+          memeMedia = document.createElement('video');
+          memeMedia.src = MEME_SRC;
+          memeMedia.autoplay = true;
+          memeMedia.loop = true;
+          memeMedia.playsInline = true;
+          memeMedia.muted = isAudioMuted;
+          memeMedia.play().catch(() => {
+            memeMedia.muted = true;
+            memeMedia.play().catch(() => { });
+          });
+        } else {
+          memeMedia = document.createElement('img');
+          memeMedia.src = MEME_SRC;
+          memeMedia.alt = "Dancing Cat Meme";
+        }
+
+        memeContainer.appendChild(memeMedia);
+
+        // Add discreet audio toggle pill
+        const audioBtn = document.createElement('button');
+        audioBtn.className = 'audio-ctrl';
+        audioBtn.innerHTML = `<span>${isAudioMuted ? '🔇' : '🔊'}</span> <span>${isAudioMuted ? 'Unmute Audio' : 'Mute Audio'}</span>`;
+        audioBtn.addEventListener('click', () => {
+          isAudioMuted = !isAudioMuted;
+          audioEl.muted = isAudioMuted;
+          if (memeMedia.tagName === 'VIDEO') memeMedia.muted = isAudioMuted;
+          audioBtn.innerHTML = `<span>${isAudioMuted ? '🔇' : '🔊'}</span> <span>${isAudioMuted ? 'Unmute Audio' : 'Mute Audio'}</span>`;
+          if (!isAudioMuted && audioEl.paused) {
+            audioEl.play().catch(() => { });
+          }
+        });
+        memeContainer.appendChild(audioBtn);
+
+        // Play Audio
+        playMemeAudio();
+
+        // Reset Elements
+        const ul = $('lines');
+        ul.innerHTML = roastLines.map(line => `<li>${line}</li>`).join('');
+
+        const cta = $('cta');
+        cta.classList.remove('show');
+        $('reg').href = REG_LINK;
+        $('when').textContent = FEST_INFO;
+
+        // Roast lines appear one-by-one starting at 600ms with ~1.3s delay between each
+        const listItems = [...ul.children];
+        listItems.forEach((li, idx) => {
+          revealTimers.push(setTimeout(() => {
+            li.classList.add('show');
+            li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 600 + (idx * 1350)));
+        });
+
+        // CTA button appears after the last line
+        revealTimers.push(setTimeout(() => {
+          cta.classList.add('show');
+          cta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 600 + (listItems.length * 1350) + 200));
+      });
+    }
+
+    // Reset and Search Again
+    function resetApp() {
+      if (currentStepTimer) {
+        clearInterval(currentStepTimer);
+        currentStepTimer = null;
+      }
+      revealTimers.forEach(t => clearTimeout(t));
+      revealTimers = [];
+
+      stopMemeAudio();
+
+      const video = document.querySelector('video');
+      if (video) video.pause();
+
+      $('age').value = '';
+      $('gender').value = '';
+      $('age-err').textContent = '';
+      $('gender-err').textContent = '';
+
+      transitionTo('s-home');
+    }
+
+    // Event Listeners
+    $('go').addEventListener('click', startSearch);
+    $('again').addEventListener('click', resetApp);
+
+    // Allow Enter key to submit
+    $('age').addEventListener('keydown', e => {
+      if (e.key === 'Enter') startSearch();
+    });
+  </script>
+</body>
+
+</html>
