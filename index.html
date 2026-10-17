@@ -492,27 +492,6 @@
       }
     }
 
-    /* Discreet Audio Control Pill */
-    .audio-ctrl {
-      margin-top: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(40, 10, 66, 0.65);
-      border: 1px solid rgba(255, 183, 3, 0.25);
-      color: var(--cream);
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
-    }
-
-    .audio-ctrl:hover {
-      background: rgba(58, 10, 92, 0.85);
-      border-color: var(--marigold);
-    }
-
     .twist {
       font-family: var(--font-display);
       font-size: clamp(1.65rem, 6.8vw, 2.1rem);
@@ -955,20 +934,6 @@
 
         memeContainer.appendChild(memeMedia);
 
-        // Add discreet audio toggle pill
-        const audioBtn = document.createElement('button');
-        audioBtn.className = 'audio-ctrl';
-        audioBtn.innerHTML = `<span>${isAudioMuted ? '🔇' : '🔊'}</span> <span>${isAudioMuted ? 'Unmute Audio' : 'Mute Audio'}</span>`;
-        audioBtn.addEventListener('click', () => {
-          isAudioMuted = !isAudioMuted;
-          audioEl.muted = isAudioMuted;
-          if (memeMedia.tagName === 'VIDEO') memeMedia.muted = isAudioMuted;
-          audioBtn.innerHTML = `<span>${isAudioMuted ? '🔇' : '🔊'}</span> <span>${isAudioMuted ? 'Unmute Audio' : 'Mute Audio'}</span>`;
-          if (!isAudioMuted && audioEl.paused) {
-            audioEl.play().catch(() => { });
-          }
-        });
-        memeContainer.appendChild(audioBtn);
 
         // Play Audio
         playMemeAudio();
